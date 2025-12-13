@@ -26,7 +26,7 @@ platforms:
       - seccomp=unconfined
       - label:disable
   - name: fedora43
-    image: docker.io/philnewm/philnewm/fedora43-ansible
+    image: docker.io/philnewm/fedora43-ansible
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
       - /tmp:/tmp
