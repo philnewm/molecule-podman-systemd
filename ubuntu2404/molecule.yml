@@ -1,0 +1,69 @@
+---
+
+dependency:
+  name: galaxy
+driver:
+  name: vagrant
+  provider:
+    name: virtualbox
+    type: virtualbox
+lint: |
+  set -e
+  yamllint
+  ansible-lint
+platforms:
+  - name: ubuntu2424
+    image: docker.io/geerlingguy/docker-ubuntu2404-ansible
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /tmp:/tmp
+    capabilities:
+      - SYS_ADMIN
+    command: "/lib/systemd/systemd"
+    pre_build_image: true
+    privileged: true
+    network: host
+    storage_driver: overlay
+    systemd: always
+    security_opts:
+      - seccomp=unconfined
+      - label:disable
+provisioner:
+  name: ansible
+  env:
+    ANSIBLE_DIFF_ALWAYS: false
+  playbooks:
+    create: ../default/create.yml
+    prepare: ../default/prepare.yml
+    converge: ../default/converge.yml
+    verify: ../default/verify.yml
+    cleanup: ../default/cleanup.yml
+  config_options:
+    defaults:
+      diff: True
+      gathering: smart
+      fact_caching_timeout: 3600
+      fact_caching: jsonfile
+      fact_caching_connection: /tmp/ansible_fact_cache
+      stdout_callback: debug
+      callbacks_enabled: ansible.posix.profile_tasks
+    connection:
+      pipelining: true
+    env:
+      ANSIBLE_FORCE_COLOR: "true"
+verifier:
+  name: ansible
+scenario:
+  test_sequence:
+      - dependency
+      - syntax
+      - create
+      - prepare
+      - converge
+      - idempotence
+      - side_effect
+      - verify
+      - cleanup
+      - destroy
+
+...

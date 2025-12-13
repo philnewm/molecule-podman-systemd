@@ -1,0 +1,38 @@
+---
+
+- name: Clean Up
+  hosts: all
+  become: true
+
+  pre_tasks:
+    - name: Gather package facts
+      ansible.builtin.package_facts:
+
+  tasks:
+    - name: Read meta/main.yml from the role directory
+      become: false
+      ansible.builtin.slurp:
+        src: "../../meta/main.yml"
+      register: role_meta_file
+      delegate_to: localhost
+
+    - name: Decode and parse the metadata
+      ansible.builtin.set_fact:
+        role_meta: "{{ role_meta_file.content | b64decode | from_yaml }}"
+
+    - name: Include role
+      ansible.builtin.include_role:
+        name: "ansible-{{ role_meta.galaxy_info.role_name | replace('_', '-') }}"
+      vars:
+        state: absent
+
+- name: Cleanup
+  hosts: localhost
+
+  tasks:
+    - name: Remove boot_analysis
+      ansible.builtin.file:
+        path: boot_analysis
+        state: absent
+
+...
