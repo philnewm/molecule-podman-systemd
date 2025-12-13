@@ -26,13 +26,6 @@
       changed_when: false
       when: raw_uname.rc == 0 and raw_uname.stdout | trim == "Linux"
 
-    - name: Check systemd status
-      ansible.builtin.command:
-        cmd: systemctl status
-      register: result
-      ignore_errors: true
-      changed_when: false
-
     - name: Ensure sudo is installed
       ansible.builtin.package:
         name: sudo
