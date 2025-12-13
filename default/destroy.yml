@@ -27,7 +27,7 @@
       retries: 300
       loop: "{{ server.results }}"
       loop_control:
-        label: "{{ item.name }}"
+        label: "{{ item.item.name }}"
 
     - name: Delete podman network dedicated to this scenario
       containers.podman.podman_network:
