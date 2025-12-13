@@ -1,0 +1,73 @@
+---
+
+dependency:
+  name: galaxy
+driver:
+  name: podman
+lint: |
+  set -e
+  yamllint
+  ansible-lint
+platforms:
+  - name: fedora43
+    image: docker.io/philnewm/philnewm/fedora43-ansible
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /tmp:/tmp
+    capabilities:
+      - SYS_ADMIN
+    command: "/usr/sbin/init"
+    pre_build_image: true
+    privileged: true
+    network: host
+    storage_driver: overlay
+    systemd: always
+    security_opts:
+      - seccomp=unconfined
+      - label:disable
+provisioner:
+  name: ansible
+  connection_options:
+    remote_user: ansible
+  env:
+    ANSIBLE_DIFF_ALWAYS: false
+  playbooks:
+    create: ../default/create.yml
+    prepare: ../default/prepare.yml
+    converge: ../default/converge.yml
+    verify: ../default/verify.yml
+    cleanup: ../default/cleanup.yml
+  inventory:
+    group_vars:
+      all:
+        ansible_python_interpreter: /usr/bin/python3
+  config_options:
+    defaults:
+      remote_tmp: ~/ansible_tmp
+      diff: True
+      gathering: smart
+      fact_caching_timeout: 3600
+      fact_caching: jsonfile
+      fact_caching_connection: /tmp/ansible_fact_cache
+      stdout_callback: debug
+      callbacks_enabled: ansible.posix.profile_tasks
+    connection:
+      pipelining: true
+    env:
+      ANSIBLE_FORCE_COLOR: "true"
+verifier:
+  name: ansible
+scenario:
+  test_sequence:
+      - dependency
+      - syntax
+      - create
+      - prepare
+      - converge
+      - idempotence
+      - side_effect
+      - verify
+      - cleanup
+      - destroy
+
+...
