@@ -11,7 +11,9 @@
     - name: Destroy molecule instance(s)
       ansible.builtin.shell: "{{ podman_exec }} container exists {{ item.name }} && {{ podman_exec }} rm -f {{ item.name }} || true"
       register: server
-      with_items: "{{ molecule_yml.platforms }}"
+      loop: "{{ molecule_yml.platforms }}"
+      loop_control:
+        label: "{{ item.name }}"
       async: 7200
       poll: 0
       changed_when: true
@@ -23,7 +25,9 @@
       register: podman_jobs
       until: podman_jobs.finished
       retries: 300
-      with_items: "{{ server.results }}"
+      loop: "{{ server.results }}"
+      loop_control:
+        label: "{{ item.name }}"
 
     - name: Delete podman network dedicated to this scenario
       containers.podman.podman_network:
