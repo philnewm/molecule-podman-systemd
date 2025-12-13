@@ -33,14 +33,6 @@
       ignore_errors: true
       changed_when: false
 
-    - name: Print systemd status
-      ansible.builtin.debug:
-        var: result.stdout
-
-    - name: Display user
-      ansible.builtin.debug:
-        var: remote_user
-
     - name: Ensure sudo is installed
       ansible.builtin.package:
         name: sudo
