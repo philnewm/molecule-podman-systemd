@@ -3,10 +3,7 @@
 dependency:
   name: galaxy
 driver:
-  name: vagrant
-  provider:
-    name: virtualbox
-    type: virtualbox
+  name: podman
 lint: |
   set -e
   yamllint
@@ -19,7 +16,7 @@ platforms:
       - /tmp:/tmp
     capabilities:
       - SYS_ADMIN
-    command: "/lib/systemd/systemd"
+    command: "/usr/sbin/init"
     pre_build_image: true
     privileged: true
     network: host
@@ -28,8 +25,11 @@ platforms:
     security_opts:
       - seccomp=unconfined
       - label:disable
+    rootless: true
 provisioner:
   name: ansible
+  connection_options:
+    ansible_ssh_user: ansible
   env:
     ANSIBLE_DIFF_ALWAYS: false
   playbooks:

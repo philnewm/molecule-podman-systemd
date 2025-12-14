@@ -1,9 +1,10 @@
 ---
+
 - name: Prepare
   hosts: all
   gather_facts: false
   vars:
-    remote_user: root
+    ansible_ssh_user: root
   tasks:
     - name: Gather system info
       ansible.builtin.raw: uname
@@ -26,6 +27,20 @@
       changed_when: false
       when: raw_uname.rc == 0 and raw_uname.stdout | trim == "Linux"
 
+    # INFO https://github.com/rocky-linux/sig-cloud-instance-images/issues/56
+    - name: "Get file stats for /etc/shadow"
+      ansible.builtin.stat:
+        path: "/etc/shadow"
+      register: "shadow"
+
+    - name: "Fix permissions for /etc/shadow"
+      ansible.builtin.file:
+        path: "/etc/shadow"
+        owner: "root"
+        group: "{{ shadow.stat.gr_name }}"
+        mode: "0640"
+      when: "not shadow.stat.rusr"
+
     - name: Ensure sudo is installed
       ansible.builtin.package:
         name: sudo
@@ -44,23 +59,13 @@
     - name: Add ansible user to the correct sudoers group based on OS family
       ansible.builtin.user:
         name: ansible
-        groups: "{{ 'wheel' if ansible_os_family == 'RedHat' else 'sudo' }}"
+        groups: "{{ 'wheel' if ansible_facts['os_family'] == 'RedHat' else 'sudo' }}"
         append: true
 
-    - name: Ensure ansible users .ssh dir exists
-      ansible.builtin.file:
-        path: /home/ansible/.ssh
-        state: directory
-        owner: ansible
-        group: ansible
-        mode: "0644"
-
-    - name: Set authorized_keys for ansible user
-      ansible.builtin.copy:
-        dest: "/home/ansible/.ssh/authorized_keys"
-        content: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
-        owner: ansible
-        group: ansible
-        mode: '0600'
+    - name: Set passwordless sudo
+      ansible.builtin.lineinfile:
+        path: /etc/sudoers
+        line: "ansible ALL=(ALL) NOPASSWD: ALL"
+        validate: '/usr/sbin/visudo -cf %s'
 
 ...
