@@ -25,10 +25,11 @@ platforms:
     security_opts:
       - seccomp=unconfined
       - label:disable
+    rootless: true
 provisioner:
   name: ansible
   connection_options:
-    remote_user: ansible
+    ansible_ssh_user: ansible
   env:
     ANSIBLE_DIFF_ALWAYS: false
   playbooks:

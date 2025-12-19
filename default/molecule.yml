@@ -25,6 +25,7 @@ platforms:
     security_opts:
       - seccomp=unconfined
       - label:disable
+    rootless: true
   - name: fedora43
     image: docker.io/philnewm/fedora43-ansible
     volumes:
@@ -41,6 +42,7 @@ platforms:
     security_opts:
       - seccomp=unconfined
       - label:disable
+    rootless: true
   - name: debian13
     image: docker.io/geerlingguy/docker-debian13-ansible
     volumes:
@@ -57,7 +59,8 @@ platforms:
     security_opts:
       - seccomp=unconfined
       - label:disable
-  - name: ubuntu2424
+    rootless: true
+  - name: ubuntu2404
     image: docker.io/geerlingguy/docker-ubuntu2404-ansible
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
@@ -73,10 +76,11 @@ platforms:
     security_opts:
       - seccomp=unconfined
       - label:disable
+    rootless: true
 provisioner:
   name: ansible
   connection_options:
-    remote_user: ansible
+    ansible_ssh_user: ansible
   env:
     ANSIBLE_DIFF_ALWAYS: false
     ROLE_NAME: "{{ lookup('env', 'ROLE_NAME') | default('default_role') }}"
@@ -94,7 +98,7 @@ provisioner:
   config_options:
     defaults:
       remote_tmp: ~/ansible_tmp
-      diff: True
+      diff: true
       gathering: smart
       fact_caching_timeout: 3600
       fact_caching: jsonfile
