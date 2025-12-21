@@ -64,7 +64,7 @@
 
     - name: Set passwordless sudo
       ansible.builtin.lineinfile:
-        path: /etc/sudoers
+        path: /etc/sudoers.d/ansible;
         line: "ansible ALL=(ALL) NOPASSWD: ALL"
         validate: '/usr/sbin/visudo -cf %s'
 
