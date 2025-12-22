@@ -12,6 +12,7 @@
       changed_when: false
       failed_when: false
 
+    # TODO use preconfigured images instead
     - name: Bootstrap python for Ansible
       ansible.builtin.raw: |
         /bin/bash -c "command -v python3 python || (
@@ -64,8 +65,13 @@
 
     - name: Set passwordless sudo
       ansible.builtin.lineinfile:
-        path: /etc/sudoers.d/ansible;
+        path: /etc/sudoers.d/ansible
         line: "ansible ALL=(ALL) NOPASSWD: ALL"
         validate: '/usr/sbin/visudo -cf %s'
+        state: present
+        create: true
+        owner: root
+        group: root
+        mode: "0644"
 
 ...
