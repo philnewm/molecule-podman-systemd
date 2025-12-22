@@ -9,8 +9,8 @@ lint: |
   yamllint
   ansible-lint
 platforms:
-  - name: rockylinux9
-    image: docker.io/geerlingguy/docker-rockylinux9-ansible
+  - name: almalinux9
+    image: docker.io/philnewm/almalinux9-ansible
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     capabilities:
@@ -27,6 +27,22 @@ platforms:
     rootless: true
   - name: centosstream9
     image: docker.io/philnewm/centosstream9-ansible
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    capabilities:
+      - SYS_ADMIN
+    command: "/usr/sbin/init"
+    pre_build_image: true
+    privileged: true
+    network: host
+    storage_driver: overlay
+    systemd: always
+    security_opts:
+      - seccomp=unconfined
+      - label:disable
+    rootless: true
+  - name: rockylinux9
+    image: docker.io/geerlingguy/docker-rockylinux9-ansible
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     capabilities:
