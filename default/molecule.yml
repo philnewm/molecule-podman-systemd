@@ -13,7 +13,22 @@ platforms:
     image: docker.io/geerlingguy/docker-rockylinux9-ansible
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
-      - /tmp:/tmp
+    capabilities:
+      - SYS_ADMIN
+    command: "/usr/sbin/init"
+    pre_build_image: true
+    privileged: true
+    network: host
+    storage_driver: overlay
+    systemd: always
+    security_opts:
+      - seccomp=unconfined
+      - label:disable
+    rootless: true
+  - name: centosstream9
+    image: docker.io/philnewm/centosstream9-ansible
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
     capabilities:
       - SYS_ADMIN
     command: "/usr/sbin/init"
@@ -27,10 +42,9 @@ platforms:
       - label:disable
     rootless: true
   - name: fedora43
-    image: docker.io/philnewm/fedora43-ansible
+    image: docker.io/geerlingguy/docker-fedora43-ansible
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
-      - /tmp:/tmp
     capabilities:
       - SYS_ADMIN
     command: "/usr/sbin/init"
@@ -47,7 +61,6 @@ platforms:
     image: docker.io/geerlingguy/docker-debian13-ansible
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
-      - /tmp:/tmp
     capabilities:
       - SYS_ADMIN
     command: "/lib/systemd/systemd"
@@ -64,7 +77,6 @@ platforms:
     image: docker.io/geerlingguy/docker-ubuntu2404-ansible
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
-      - /tmp:/tmp
     capabilities:
       - SYS_ADMIN
     command: "/lib/systemd/systemd"
