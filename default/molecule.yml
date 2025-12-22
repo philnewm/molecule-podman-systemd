@@ -125,7 +125,9 @@ provisioner:
         ansible_python_interpreter: /usr/bin/python3
   config_options:
     defaults:
-      remote_tmp: ~/ansible_tmp
+      # INFO prevents ACL permission issue
+      pipelining: true
+      remote_tmp: ~/.ansible/tmp
       diff: true
       gathering: smart
       fact_caching_timeout: 3600

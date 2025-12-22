@@ -43,7 +43,9 @@ provisioner:
         ansible_python_interpreter: /usr/bin/python3
   config_options:
     defaults:
-      remote_tmp: ~/ansible_tmp
+      # INFO prevents ACL permission issue
+      pipelining: true
+      remote_tmp: ~/.ansible/tmp
       diff: True
       gathering: smart
       fact_caching_timeout: 3600
@@ -51,8 +53,6 @@ provisioner:
       fact_caching_connection: /tmp/ansible_fact_cache
       stdout_callback: debug
       callbacks_enabled: ansible.posix.profile_tasks
-    connection:
-      pipelining: true
     env:
       ANSIBLE_FORCE_COLOR: "true"
 verifier:
