@@ -13,7 +13,6 @@ platforms:
     image: docker.io/geerlingguy/docker-ubuntu2404-ansible
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
-      - /tmp:/tmp
     capabilities:
       - SYS_ADMIN
     command: "/usr/sbin/init"
