@@ -39,7 +39,6 @@ provisioner:
     cleanup: ../default/cleanup.yml
   config_options:
     defaults:
-      # INFO prevents ACL permission issue
       pipelining: true
       remote_tmp: ~/.ansible/tmp
       diff: True
