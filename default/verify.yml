@@ -7,15 +7,10 @@
     - name: Gather package facts
       ansible.builtin.package_facts:
 
-    - name: Read meta/main.yml from the role directory
-      ansible.builtin.slurp:
-        src: "../../meta/main.yml"
-      register: role_meta_file
-      delegate_to: localhost
-
-    - name: Decode and parse the metadata
+    - name: Parse role metadata
       ansible.builtin.set_fact:
-        role_meta: "{{ role_meta_file.content | b64decode | from_yaml }}"
+        role_meta: "{{ lookup('file', '../../meta/main.yml') | from_yaml }}"
+      delegate_to: localhost
 
     - name: Include role
       ansible.builtin.include_role:
