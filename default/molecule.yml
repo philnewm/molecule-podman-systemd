@@ -13,6 +13,7 @@ platforms:
     image: docker.io/philnewm/almalinux9-ansible
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
     capabilities:
       - SYS_ADMIN
     command: "/usr/sbin/init"
@@ -23,12 +24,13 @@ platforms:
     systemd: always
     security_opts:
       - seccomp=unconfined
-      - label:disable
+      - label=type:container_runtime_t
     rootless: true
   - name: centosstream9
     image: docker.io/philnewm/centosstream9-ansible
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
     capabilities:
       - SYS_ADMIN
     command: "/usr/sbin/init"
@@ -39,12 +41,13 @@ platforms:
     systemd: always
     security_opts:
       - seccomp=unconfined
-      - label:disable
+      - label=type:container_runtime_t
     rootless: true
   - name: rockylinux9
     image: docker.io/geerlingguy/docker-rockylinux9-ansible
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
     capabilities:
       - SYS_ADMIN
     command: "/usr/sbin/init"
@@ -55,12 +58,13 @@ platforms:
     systemd: always
     security_opts:
       - seccomp=unconfined
-      - label:disable
+      - label=type:container_runtime_t
     rootless: true
   - name: fedora43
     image: docker.io/geerlingguy/docker-fedora43-ansible
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
     capabilities:
       - SYS_ADMIN
     command: "/usr/sbin/init"
@@ -71,12 +75,13 @@ platforms:
     systemd: always
     security_opts:
       - seccomp=unconfined
-      - label:disable
+      - label=type:container_runtime_t
     rootless: true
   - name: debian13
     image: docker.io/geerlingguy/docker-debian13-ansible
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
     capabilities:
       - SYS_ADMIN
     command: "/lib/systemd/systemd"
@@ -87,12 +92,13 @@ platforms:
     systemd: always
     security_opts:
       - seccomp=unconfined
-      - label:disable
+      - label=type:container_runtime_t
     rootless: true
   - name: ubuntu2404
     image: docker.io/geerlingguy/docker-ubuntu2404-ansible
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
     capabilities:
       - SYS_ADMIN
     command: "/lib/systemd/systemd"
@@ -103,7 +109,7 @@ platforms:
     systemd: always
     security_opts:
       - seccomp=unconfined
-      - label:disable
+      - label=type:container_runtime_t
     rootless: true
 provisioner:
   name: ansible
