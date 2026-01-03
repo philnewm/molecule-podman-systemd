@@ -21,11 +21,20 @@
 
 - name: Cleanup
   hosts: localhost
+  connection: local
+  gather_facts: false
+  no_log: "{{ molecule_no_log }}"
 
   tasks:
-    - name: Remove boot_analysis
-      ansible.builtin.file:
-        path: boot_analysis
-        state: absent
+    - name: Combine volume list
+      ansible.builtin.set_fact:
+        all_volumes: "{{ molecule_yml.platforms | map(attribute='volumes') | flatten | unique }}"
+
+    - name: "Revoke X11 socket access from user {{ molecule_yml.provisioner.connection_options.ansible_ssh_user }}"
+      when: "'/tmp/.X11-unix:/tmp/.X11-unix:rw' in all_volumes"
+      ansible.builtin.command:
+        cmd: "xhost -local:{{ molecule_yml.provisioner.connection_options.ansible_ssh_user }}"
+      register: ansible_user_x11_revoke
+      changed_when: ansible_user_x11_revoke.rc == 0
 
 ...

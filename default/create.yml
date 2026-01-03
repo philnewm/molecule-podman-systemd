@@ -136,6 +136,17 @@
       ansible.builtin.set_fact:
         local_display_id: "{{ lookup('env', 'DISPLAY') | default(':0') }}"
 
+    - name: Combine volume list
+      ansible.builtin.set_fact:
+        all_volumes: "{{ molecule_yml.platforms | map(attribute='volumes') | flatten | unique }}"
+
+    - name: "Allow X11 socket access for user {{ molecule_yml.provisioner.connection_options.ansible_ssh_user }}"
+      when: "'/tmp/.X11-unix:/tmp/.X11-unix:rw' in all_volumes"
+      ansible.builtin.command:
+        cmd: "xhost +local:{{ molecule_yml.provisioner.connection_options.ansible_ssh_user }}"
+      register: ansible_user_x11_access
+      changed_when: ansible_user_x11_access.rc == 0
+
     - name: Create molecule instance(s)
       containers.podman.podman_container:
         name: "{{ item.name }}"
