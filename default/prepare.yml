@@ -48,11 +48,4 @@
         group: root
         mode: "0644"
 
-    - name: Ensure dbus service is started and enabled
-      when: ansible_facts.distribution | lower == "fedora"
-      ansible.builtin.systemd:
-        name: dbus
-        state: started
-        enabled: true
-
 ...
