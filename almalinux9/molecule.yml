@@ -12,6 +12,7 @@ platforms:
   - name: almalinux9
     image: docker.io/philnewm/almalinux9-ansible
     volumes:
+      - /tmp:/tmp:rw
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     capabilities:
       - SYS_ADMIN

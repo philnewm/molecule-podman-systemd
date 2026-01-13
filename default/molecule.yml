@@ -12,6 +12,7 @@ platforms:
   - name: almalinux9
     image: docker.io/philnewm/almalinux9-ansible
     volumes:
+      - /tmp:/tmp:rw
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
     capabilities:
@@ -29,6 +30,7 @@ platforms:
   - name: centosstream9
     image: docker.io/philnewm/centosstream9-ansible
     volumes:
+      - /tmp:/tmp:rw
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
     capabilities:
@@ -46,6 +48,7 @@ platforms:
   - name: rockylinux9
     image: docker.io/geerlingguy/docker-rockylinux9-ansible
     volumes:
+      - /tmp:/tmp:rw
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
     capabilities:
@@ -63,6 +66,7 @@ platforms:
   - name: fedora43
     image: docker.io/geerlingguy/docker-fedora43-ansible
     volumes:
+      - /tmp:/tmp:rw
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
     capabilities:
@@ -80,6 +84,7 @@ platforms:
   - name: debian13
     image: docker.io/geerlingguy/docker-debian13-ansible
     volumes:
+      - /tmp:/tmp:rw
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
     capabilities:
@@ -97,6 +102,7 @@ platforms:
   - name: ubuntu2404
     image: docker.io/geerlingguy/docker-ubuntu2404-ansible
     volumes:
+      - /tmp:/tmp:rw
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
     capabilities:
