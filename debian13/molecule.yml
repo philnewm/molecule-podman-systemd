@@ -12,6 +12,7 @@ platforms:
   - name: debian13
     image: docker.io/geerlingguy/docker-debian13-ansible
     volumes:
+      - /tmp:/tmp:rw
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     capabilities:
       - SYS_ADMIN
