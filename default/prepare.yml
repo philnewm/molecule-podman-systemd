@@ -64,4 +64,21 @@
         state: present
         update_cache: true
 
+    - name: Ensure system-wide GnuPG config directory exists
+      become: true
+      ansible.builtin.file:
+        path: /etc/gnupg
+        state: directory
+        mode: '0755'
+
+    - name: Disable keyboxd system-wide (CI / R&D containers)
+      become: true
+      ansible.builtin.copy:
+        dest: /etc/gnupg/gpg.conf
+        content: |
+          no-use-keyboxd
+        owner: root
+        group: root
+        mode: '0644'
+
 ...
