@@ -54,4 +54,14 @@
         name: curl-minimal
         state: absent
 
+    - name: Install gnupg and dbus
+      become: true
+      ansible.builtin.package:
+        name:
+          - gnupg
+          - gnupg2
+          - dbus
+        state: present
+        update_cache: true
+
 ...
