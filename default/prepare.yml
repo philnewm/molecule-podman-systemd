@@ -48,6 +48,12 @@
         group: root
         mode: "0644"
 
+    - name: Ensure dnf4 backend works on fedora
+      when: ansible_facts.distribution | lower == "fedora"
+      ansible.builtin.dnf:
+        name: python3-dnf
+        state: present
+
     - name: Ensure curl-minimal is absent
       when: ansible_facts.distribution | lower != "fedora"
       ansible.builtin.package:
