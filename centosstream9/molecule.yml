@@ -31,6 +31,7 @@ provisioner:
     ansible_ssh_user: ansible
   env:
     ANSIBLE_DIFF_ALWAYS: false
+    ANSIBLE_ROLES_PATH: ~/.cache/molecule/skeleton-ansible-role/${MOLECULE_SCENARIO_NAME}/roles:${MOLECULE_PROJECT_DIRECTORY}/..:~/.ansible/roles:/usr/share/ansible/roles:/etc/ansible/roles
   playbooks:
     create: ../default/create.yml
     prepare: ../default/prepare.yml
