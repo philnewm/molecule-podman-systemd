@@ -9,8 +9,11 @@ lint: |
   yamllint
   ansible-lint
 platforms:
-  - name: debian13
+  - name: debian13.molecule
     image: docker.io/geerlingguy/docker-debian13-ansible
+    hostname: debian13.molecule
+    etc_hosts:
+      "debian13.molecule": "127.0.0.1"
     volumes:
       - /tmp:/tmp:rw
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
