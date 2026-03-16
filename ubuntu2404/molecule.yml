@@ -10,7 +10,7 @@ lint: |
   ansible-lint
 platforms:
   - name: ubuntu2404.molecule
-    image: docker.io/geerlingguy/docker-ubuntu2404-ansible
+    image: docker.io/geerlingguy/docker-ubuntu2404-ansible  # Note does not include snapd
     hostname: ubuntu2404.molecule
     etc_hosts:
       "ubuntu2404.molecule": "127.0.0.1"
