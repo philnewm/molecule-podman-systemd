@@ -1,4 +1,4 @@
-ansible==13.3.0
+ansible==13.5.0
 molecule==26.4.0
 molecule-plugins[podman]==25.8.12
 ansible-lint
