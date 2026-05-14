@@ -5,22 +5,8 @@
   gather_facts: false
   vars:
     ansible_ssh_user: root
+    locale_lang: en_US.UTF-8
   tasks:
-    # TODO use preconfigured images instead
-    # INFO https://github.com/rocky-linux/sig-cloud-instance-images/issues/56
-    - name: "Get file stats for /etc/shadow"
-      ansible.builtin.stat:
-        path: "/etc/shadow"
-      register: "shadow"
-
-    - name: "Fix permissions for /etc/shadow"
-      ansible.builtin.file:
-        path: "/etc/shadow"
-        owner: "root"
-        group: "{{ shadow.stat.gr_name }}"
-        mode: "0640"
-      when: "not shadow.stat.rusr"
-
     - name: Gather facts
       ansible.builtin.setup:
 
@@ -34,7 +20,7 @@
     - name: Add ansible user to the correct sudoers group based on OS family
       ansible.builtin.user:
         name: ansible
-        groups: "{{ 'wheel' if ansible_facts.os_family == 'RedHat' else 'sudo' }}"
+        groups: "{{ 'wheel' if ansible_facts.os_family | lower == 'redhat' else 'sudo' }}"
         append: true
 
     - name: Set passwordless sudo
@@ -48,16 +34,27 @@
         group: root
         mode: "0644"
 
-    - name: Ensure dnf4 backend works on fedora
-      when: ansible_facts.distribution | lower == "fedora"
-      ansible.builtin.dnf:
-        name: python3-dnf
-        state: present
 
-    - name: Ensure curl-minimal is absent
-      when: ansible_facts.distribution | lower != "fedora"
-      ansible.builtin.package:
-        name: curl-minimal
-        state: absent
+    - name: Configure locals on debian based systems
+      when: ansible_facts.os_family | lower == "debian"
+      block:
+        - name: Install locales package on debian family
+          ansible.builtin.apt:
+            name: locales
+            state: present
+            update_cache: true
+
+        - name: Generate locales
+          community.general.locale_gen:
+            name: "{{ locale_lang }}"
+            state: present
+          register: local_gen_result
+
+        - name: Set system locale
+          when: local_gen_result.changed  # noqa: no-handler
+          ansible.builtin.command:
+            cmd: update-locale LANG={{ locale_lang }}
+          register: lcoals_result
+          changed_when: locals_result.rc == 0
 
 ...
