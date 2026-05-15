@@ -48,7 +48,7 @@ platforms:
       - label=type:container_runtime_t
     rootless: true
   - name: rockylinux9.molecule
-    image: ddocker.io/philnewm/rockylinux9-ansible
+    image: docker.io/philnewm/rockylinux9-ansible
     hostname: rockylinux9.molecule
     etc_hosts:
       "rockylinux9.molecule": "127.0.0.1"
