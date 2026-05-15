@@ -54,7 +54,7 @@
           when: local_gen_result.changed  # noqa: no-handler
           ansible.builtin.command:
             cmd: update-locale LANG={{ locale_lang }}
-          register: lcoals_result
+          register: locals_result
           changed_when: locals_result.rc == 0
 
 ...
