@@ -10,6 +10,18 @@
     - name: Gather facts
       ansible.builtin.setup:
 
+    # ipa-config role seems to require it
+    - name: Add container FQDN to /etc/hosts
+      ansible.builtin.lineinfile:
+        path: /etc/hosts
+        regexp: '.*\s{{ inventory_hostname | regex_escape }}(\s|$)'
+        line: >-
+          {{ ansible_facts.default_ipv4.address }}
+          {{ inventory_hostname }}
+          {{ inventory_hostname_short }}
+        state: present
+        unsafe_writes: true
+
     - name: Create ansible user
       ansible.builtin.user:
         name: ansible
@@ -17,7 +29,7 @@
         state: present
         create_home: true
 
-    - name: Add ansible user to the correct sudoers group based on OS family
+    - name: Add ansible user to the correct sudoers group based on os family
       ansible.builtin.user:
         name: ansible
         groups: "{{ 'wheel' if ansible_facts.os_family | lower == 'redhat' else 'sudo' }}"
