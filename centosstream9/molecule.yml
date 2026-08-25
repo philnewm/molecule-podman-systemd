@@ -20,8 +20,6 @@ platforms:
       - SYS_ADMIN
     command: "/usr/sbin/init"
     pre_build_image: true
-    privileged: true
-    network: host
     storage_driver: overlay
     systemd: always
     security_opts:
