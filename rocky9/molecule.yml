@@ -12,8 +12,6 @@ platforms:
   - name: rockylinux9.molecule
     image: docker.io/philnewm/rockylinux9-ansible
     hostname: rockylinux9.molecule
-    etc_hosts:
-      "rockylinux9.molecule": "127.0.0.1"
     volumes:
       - /tmp:/tmp:rw
       - /sys/fs/cgroup:/sys/fs/cgroup:ro

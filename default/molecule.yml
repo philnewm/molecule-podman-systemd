@@ -12,8 +12,6 @@ platforms:
   - name: almalinux9.molecule.com
     image: docker.io/philnewm/almalinux9-ansible
     hostname: almalinux9.molecule.com
-    etc_hosts:
-      "almalinux9.molecule.com": "127.0.0.1"  # foreman role seems to require it
     published_ports:
       - "8080:80"
       - "8443:443"
@@ -33,8 +31,6 @@ platforms:
   - name: centosstream9.molecule.com
     image: docker.io/philnewm/centosstream9-ansible
     hostname: centosstream9.molecule.com
-    etc_hosts:
-      "centosstream9.molecule.com": "127.0.0.1"
     published_ports:
       - "8080:80"
       - "8443:443"
@@ -54,8 +50,6 @@ platforms:
   - name: rockylinux9.molecule.com
     image: docker.io/philnewm/rockylinux9-ansible
     hostname: rockylinux9.molecule.com
-    etc_hosts:
-      "rockylinux9.molecule.com": "127.0.0.1"
     published_ports:
       - "8080:80"
       - "8443:443"
@@ -75,8 +69,6 @@ platforms:
   - name: fedora43.molecule.com
     image: docker.io/philnewm/fedora43-ansible
     hostname: fedora43.molecule.com
-    etc_hosts:
-      "fedora43.molecule.com": "127.0.0.1"
     published_ports:
       - "8080:80"
       - "8443:443"
@@ -96,8 +88,6 @@ platforms:
   - name: debian13.molecule.com
     image: docker.io/geerlingguy/docker-debian13-ansible
     hostname: debian13.molecule.com
-    etc_hosts:
-      "debian13.molecule.com": "127.0.0.1"
     published_ports:
       - "8080:80"
       - "8443:443"
@@ -117,8 +107,6 @@ platforms:
   - name: ubuntu2404.molecule.com
     image: docker.io/geerlingguy/docker-ubuntu2404-ansible  # Note does not include snapd
     hostname: ubuntu2404.molecule.com
-    etc_hosts:
-      "ubuntu2404.molecule.com": "127.0.0.1"
     published_ports:
       - "8080:80"
       - "8443:443"

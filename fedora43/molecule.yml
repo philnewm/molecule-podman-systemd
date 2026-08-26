@@ -12,8 +12,6 @@ platforms:
   - name: fedora43.molecule
     image: docker.io/philnewm/fedora43-ansible
     hostname: fedora43.molecule
-    etc_hosts:
-      "fedora43.molecule": "127.0.0.1"
     volumes:
       - /tmp:/tmp:rw
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
