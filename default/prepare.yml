@@ -10,15 +10,22 @@
     - name: Gather facts
       ansible.builtin.setup:
 
-    # ipa-config role seems to require it
-    - name: Add container FQDN to /etc/hosts
+    - name: Remove fqdn from localhost entry
       ansible.builtin.lineinfile:
         path: /etc/hosts
-        regexp: '.*\s{{ inventory_hostname | regex_escape }}(\s|$)'
+        regexp: '^127\.0\.0\.1\s+{{ inventory_hostname | regex_escape }}(?:\s|$)'
+        state: absent
+        unsafe_writes: true
+
+    # ipa-config role seems to require it
+    - name: Add container fqdn to /etc/hosts
+      ansible.builtin.lineinfile:
+        path: /etc/hosts
         line: >-
           {{ ansible_facts.default_ipv4.address }}
           {{ inventory_hostname }}
           {{ inventory_hostname_short }}
+        insertbefore: BOF
         state: present
         unsafe_writes: true
 
