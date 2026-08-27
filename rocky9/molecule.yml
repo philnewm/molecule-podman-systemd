@@ -9,9 +9,9 @@ lint: |
   yamllint
   ansible-lint
 platforms:
-  - name: rockylinux9.molecule
+  - name: rockylinux9.molecule.com
     image: docker.io/philnewm/rockylinux9-ansible
-    hostname: rockylinux9.molecule
+    hostname: rockylinux9.molecule.com
     volumes:
       - /tmp:/tmp:rw
       - /sys/fs/cgroup:/sys/fs/cgroup:ro

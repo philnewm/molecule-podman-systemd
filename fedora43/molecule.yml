@@ -9,9 +9,9 @@ lint: |
   yamllint
   ansible-lint
 platforms:
-  - name: fedora43.molecule
+  - name: fedora43.molecule.com
     image: docker.io/philnewm/fedora43-ansible
-    hostname: fedora43.molecule
+    hostname: fedora43.molecule.com
     volumes:
       - /tmp:/tmp:rw
       - /sys/fs/cgroup:/sys/fs/cgroup:ro

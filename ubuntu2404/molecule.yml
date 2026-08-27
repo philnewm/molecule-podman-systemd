@@ -9,9 +9,9 @@ lint: |
   yamllint
   ansible-lint
 platforms:
-  - name: ubuntu2404.molecule
+  - name: ubuntu2404.molecule.com
     image: docker.io/geerlingguy/docker-ubuntu2404-ansible  # Note does not include snapd
-    hostname: ubuntu2404.molecule
+    hostname: ubuntu2404.molecule.com
     volumes:
       - /tmp:/tmp:rw
       - /sys/fs/cgroup:/sys/fs/cgroup:ro

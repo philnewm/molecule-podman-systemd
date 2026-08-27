@@ -9,9 +9,9 @@ lint: |
   yamllint
   ansible-lint
 platforms:
-  - name: almalinux9.molecule
+  - name: almalinux9.molecule.com
     image: docker.io/philnewm/almalinux9-ansible
-    hostname: almalinux9.molecule
+    hostname: almalinux9.molecule.com
     volumes:
       - /tmp:/tmp:rw
       - /sys/fs/cgroup:/sys/fs/cgroup:ro

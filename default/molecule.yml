@@ -12,9 +12,6 @@ platforms:
   - name: almalinux9.molecule.com
     image: docker.io/philnewm/almalinux9-ansible
     hostname: almalinux9.molecule.com
-    published_ports:
-      - "8080:80"
-      - "8443:443"
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
@@ -28,101 +25,86 @@ platforms:
       - seccomp=unconfined
       - label=type:container_runtime_t
     rootless: true
-  - name: centosstream9.molecule.com
-    image: docker.io/philnewm/centosstream9-ansible
-    hostname: centosstream9.molecule.com
-    published_ports:
-      - "8080:80"
-      - "8443:443"
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-      - /tmp/.X11-unix:/tmp/.X11-unix:rw
-    capabilities:
-      - SYS_ADMIN
-    command: "/usr/sbin/init"
-    pre_build_image: true
-    storage_driver: overlay
-    systemd: always
-    security_opts:
-      - seccomp=unconfined
-      - label=type:container_runtime_t
-    rootless: true
-  - name: rockylinux9.molecule.com
-    image: docker.io/philnewm/rockylinux9-ansible
-    hostname: rockylinux9.molecule.com
-    published_ports:
-      - "8080:80"
-      - "8443:443"
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-      - /tmp/.X11-unix:/tmp/.X11-unix:rw
-    capabilities:
-      - SYS_ADMIN
-    command: "/usr/sbin/init"
-    pre_build_image: true
-    storage_driver: overlay
-    systemd: always
-    security_opts:
-      - seccomp=unconfined
-      - label=type:container_runtime_t
-    rootless: true
-  - name: fedora43.molecule.com
-    image: docker.io/philnewm/fedora43-ansible
-    hostname: fedora43.molecule.com
-    published_ports:
-      - "8080:80"
-      - "8443:443"
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-      - /tmp/.X11-unix:/tmp/.X11-unix:rw
-    capabilities:
-      - SYS_ADMIN
-    command: "/usr/sbin/init"
-    pre_build_image: true
-    storage_driver: overlay
-    systemd: always
-    security_opts:
-      - seccomp=unconfined
-      - label=type:container_runtime_t
-    rootless: true
-  - name: debian13.molecule.com
-    image: docker.io/geerlingguy/docker-debian13-ansible
-    hostname: debian13.molecule.com
-    published_ports:
-      - "8080:80"
-      - "8443:443"
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-      - /tmp/.X11-unix:/tmp/.X11-unix:rw
-    capabilities:
-      - SYS_ADMIN
-    command: "/lib/systemd/systemd"
-    pre_build_image: true
-    storage_driver: overlay
-    systemd: always
-    security_opts:
-      - seccomp=unconfined
-      - label=type:container_runtime_t
-    rootless: true
-  - name: ubuntu2404.molecule.com
-    image: docker.io/geerlingguy/docker-ubuntu2404-ansible  # Note does not include snapd
-    hostname: ubuntu2404.molecule.com
-    published_ports:
-      - "8080:80"
-      - "8443:443"
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-      - /tmp/.X11-unix:/tmp/.X11-unix:rw
-    capabilities:
-      - SYS_ADMIN
-    command: "/lib/systemd/systemd"
-    pre_build_image: true
-    storage_driver: overlay
-    systemd: always
-    security_opts:
-      - seccomp=unconfined
-      - label=type:container_runtime_t
-    rootless: true
+  # - name: centosstream9.molecule.com
+  #   image: docker.io/philnewm/centosstream9-ansible
+  #   hostname: centosstream9.molecule.com
+  #   volumes:
+  #     - /sys/fs/cgroup:/sys/fs/cgroup:ro
+  #     - /tmp/.X11-unix:/tmp/.X11-unix:rw
+  #   capabilities:
+  #     - SYS_ADMIN
+  #   command: "/usr/sbin/init"
+  #   pre_build_image: true
+  #   storage_driver: overlay
+  #   systemd: always
+  #   security_opts:
+  #     - seccomp=unconfined
+  #     - label=type:container_runtime_t
+  #   rootless: true
+  # - name: rockylinux9.molecule.com
+  #   image: docker.io/philnewm/rockylinux9-ansible
+  #   hostname: rockylinux9.molecule.com
+  #   volumes:
+  #     - /sys/fs/cgroup:/sys/fs/cgroup:ro
+  #     - /tmp/.X11-unix:/tmp/.X11-unix:rw
+  #   capabilities:
+  #     - SYS_ADMIN
+  #   command: "/usr/sbin/init"
+  #   pre_build_image: true
+  #   storage_driver: overlay
+  #   systemd: always
+  #   security_opts:
+  #     - seccomp=unconfined
+  #     - label=type:container_runtime_t
+  #   rootless: true
+  # - name: fedora43.molecule.com
+  #   image: docker.io/philnewm/fedora43-ansible
+  #   hostname: fedora43.molecule.com
+  #   volumes:
+  #     - /sys/fs/cgroup:/sys/fs/cgroup:ro
+  #     - /tmp/.X11-unix:/tmp/.X11-unix:rw
+  #   capabilities:
+  #     - SYS_ADMIN
+  #   command: "/usr/sbin/init"
+  #   pre_build_image: true
+  #   storage_driver: overlay
+  #   systemd: always
+  #   security_opts:
+  #     - seccomp=unconfined
+  #     - label=type:container_runtime_t
+  #   rootless: true
+  # - name: debian13.molecule.com
+  #   image: docker.io/geerlingguy/docker-debian13-ansible
+  #   hostname: debian13.molecule.com
+  #   volumes:
+  #     - /sys/fs/cgroup:/sys/fs/cgroup:ro
+  #     - /tmp/.X11-unix:/tmp/.X11-unix:rw
+  #   capabilities:
+  #     - SYS_ADMIN
+  #   command: "/lib/systemd/systemd"
+  #   pre_build_image: true
+  #   storage_driver: overlay
+  #   systemd: always
+  #   security_opts:
+  #     - seccomp=unconfined
+  #     - label=type:container_runtime_t
+  #   rootless: true
+  # - name: ubuntu2404.molecule.com
+  #   image: docker.io/geerlingguy/docker-ubuntu2404-ansible  # Note does not include snapd
+  #   hostname: ubuntu2404.molecule.com
+  #   volumes:
+  #     - /sys/fs/cgroup:/sys/fs/cgroup:ro
+  #     - /tmp/.X11-unix:/tmp/.X11-unix:rw
+  #   capabilities:
+  #     - SYS_ADMIN
+  #   command: "/lib/systemd/systemd"
+  #   pre_build_image: true
+  #   storage_driver: overlay
+  #   systemd: always
+  #   security_opts:
+  #     - seccomp=unconfined
+  #     - label=type:container_runtime_t
+  #   rootless: true
 provisioner:
   name: ansible
   connection_options:

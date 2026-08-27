@@ -9,9 +9,9 @@ lint: |
   yamllint
   ansible-lint
 platforms:
-  - name: centosstream9.molecule
+  - name: centosstream9.molecule.com
     image: docker.io/philnewm/centosstream9-ansible
-    hostname: centosstream9.molecule
+    hostname: centosstream9.molecule.com
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     capabilities:
