@@ -7,6 +7,33 @@
   # debugger: on_failed
 
   tasks:
+    - name: Check hostname resolution
+      ansible.builtin.command:
+        cmd: getent hosts {{ inventory_hostname }}
+      changed_when: false
+      register: hosts_output_hostname
+    - name: Display hosts by hostname
+      ansible.builtin.debug:
+        var: hosts_output_hostname
+
+    - name: Check reverse resolution
+      ansible.builtin.command:
+        cmd: getent hosts {{ ansible_facts.default_ipv4.address }}
+      changed_when: false
+      register: hosts_output_ip
+    - name: Display hosts by ip
+      ansible.builtin.debug:
+        var: hosts_output_ip
+
+    - name: Show hosts file
+      ansible.builtin.command:
+        cmd: cat /etc/hosts
+      changed_when: false
+      register: hosts_file
+    - name: Display hosts file
+      ansible.builtin.debug:
+        var: hosts_file
+
     - name: Parse role metadata
       ansible.builtin.set_fact:
         role_meta: "{{ lookup('file', '../../meta/main.yml') | from_yaml }}"
