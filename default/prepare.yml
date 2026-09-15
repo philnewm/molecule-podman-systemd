@@ -17,17 +17,13 @@
         state: absent
         unsafe_writes: true
 
-    # ipa-config role seems to require it
-    - name: Add container fqdn to /etc/hosts
-      ansible.builtin.lineinfile:
-        path: /etc/hosts
-        line: >-
-          {{ ansible_facts.default_ipv4.address }}
-          {{ inventory_hostname }}
-          {{ inventory_hostname_short }}
-        insertbefore: BOF
-        state: present
-        unsafe_writes: true
+    - name: Include role-specific environment preparation
+      with_first_found:
+        - files:
+            - "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') }}/tasks/prepare_env.yml"
+          skip: true
+      ansible.builtin.include_tasks:
+        file: "{{ item }}"
 
     - name: Create ansible user
       ansible.builtin.user:
