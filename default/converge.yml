@@ -25,15 +25,6 @@
       ansible.builtin.debug:
         var: hosts_output_ip
 
-    - name: Show hosts file
-      ansible.builtin.command:
-        cmd: cat /etc/hosts
-      changed_when: false
-      register: hosts_file
-    - name: Display hosts file
-      ansible.builtin.debug:
-        var: hosts_file
-
     - name: Parse role metadata
       ansible.builtin.set_fact:
         role_meta: "{{ lookup('file', '../../meta/main.yml') | from_yaml }}"
