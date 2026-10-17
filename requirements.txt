@@ -1,5 +1,5 @@
 ansible==14.3.1
 molecule==26.8.0
-molecule-plugins[podman]==26.7.15
+molecule-plugins[podman]==26.10.12
 ansible-lint
 yamllint
