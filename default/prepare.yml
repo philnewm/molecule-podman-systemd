@@ -49,6 +49,11 @@
         group: root
         mode: "0644"
 
+    - name: Ensure curl-minimal is absent
+      when: ansible_facts.distribution | lower != "fedora"
+      ansible.builtin.package:
+        name: curl-minimal
+        state: absent
 
     - name: Configure locals on debian based systems
       when: ansible_facts.os_family | lower == "debian"
