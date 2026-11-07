@@ -1,0 +1,69 @@
+---
+
+dependency:
+  name: galaxy
+driver:
+  name: podman
+lint: |
+  set -e
+  yamllint
+  ansible-lint
+platforms:
+  - name: ubuntu2604.molecule.com
+    image: docker.io/geerlingguy/docker-ubuntu2604-ansible  # Note does not include snapd
+    hostname: ubuntu2604.molecule.com
+    volumes:
+      - /tmp:/tmp:rw
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    capabilities:
+      - SYS_ADMIN
+    command: "/usr/sbin/init"
+    pre_build_image: true
+    storage_driver: overlay
+    systemd: always
+    security_opts:
+      - seccomp=unconfined
+      - label:disable
+    rootless: true
+provisioner:
+  name: ansible
+  connection_options:
+    ansible_ssh_user: ansible
+  env:
+    ANSIBLE_DIFF_ALWAYS: false
+    ANSIBLE_ROLES_PATH: ~/.cache/molecule/skeleton-ansible-role/${MOLECULE_SCENARIO_NAME}/roles:${MOLECULE_PROJECT_DIRECTORY}/..:~/.ansible/roles:/usr/share/ansible/roles:/etc/ansible/roles
+  playbooks:
+    create: ../default/create.yml
+    prepare: ../default/prepare.yml
+    converge: ../default/converge.yml
+    verify: ../default/verify.yml
+    cleanup: ../default/cleanup.yml
+  config_options:
+    defaults:
+      pipelining: true
+      remote_tmp: ~/.ansible/tmp
+      diff: true
+      gathering: smart
+      fact_caching_timeout: 3600
+      fact_caching: jsonfile
+      fact_caching_connection: /tmp/ansible_fact_cache
+      stdout_callback: debug
+      callbacks_enabled: ansible.posix.profile_tasks
+    env:
+      ANSIBLE_FORCE_COLOR: "true"
+verifier:
+  name: ansible
+scenario:
+  test_sequence:
+    - dependency
+    - syntax
+    - create
+    - prepare
+    - converge
+    - idempotence
+    - side_effect
+    - verify
+    - cleanup
+    - destroy
+
+...

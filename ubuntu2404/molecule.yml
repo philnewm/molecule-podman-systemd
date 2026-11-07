@@ -42,7 +42,7 @@ provisioner:
     defaults:
       pipelining: true
       remote_tmp: ~/.ansible/tmp
-      diff: True
+      diff: true
       gathering: smart
       fact_caching_timeout: 3600
       fact_caching: jsonfile
@@ -55,15 +55,15 @@ verifier:
   name: ansible
 scenario:
   test_sequence:
-      - dependency
-      - syntax
-      - create
-      - prepare
-      - converge
-      - idempotence
-      - side_effect
-      - verify
-      - cleanup
-      - destroy
+    - dependency
+    - syntax
+    - create
+    - prepare
+    - converge
+    - idempotence
+    - side_effect
+    - verify
+    - cleanup
+    - destroy
 
 ...
