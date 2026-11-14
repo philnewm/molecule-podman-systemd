@@ -57,9 +57,9 @@ platforms:
       - seccomp=unconfined
       - label=type:container_runtime_t
     rootless: true
-  - name: fedora43.molecule.com
-    image: docker.io/philnewm/fedora43-ansible
-    hostname: fedora43.molecule.com
+  - name: fedora44.molecule.com
+    image: docker.io/philnewm/fedora44-ansible
+    hostname: fedora44.molecule.com
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
