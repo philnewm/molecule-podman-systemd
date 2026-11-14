@@ -105,6 +105,22 @@ platforms:
       - seccomp=unconfined
       - label=type:container_runtime_t
     rootless: true
+  - name: ubuntu2604.molecule.com
+    image: docker.io/geerlingguy/docker-ubuntu2604-ansible  # Note does not include snapd
+    hostname: ubuntu2604.molecule.com
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+    capabilities:
+      - SYS_ADMIN
+    command: "/lib/systemd/systemd"
+    pre_build_image: true
+    storage_driver: overlay
+    systemd: always
+    security_opts:
+      - seccomp=unconfined
+      - label=type:container_runtime_t
+    rootless: true
 provisioner:
   name: ansible
   connection_options:
