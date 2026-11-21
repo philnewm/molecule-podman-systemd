@@ -7,9 +7,6 @@
   # debugger: on_failed
 
   tasks:
-    - name: Detect container environment
-      community.docker.current_container_facts:
-
     - name: Parse role metadata
       ansible.builtin.set_fact:
         role_meta: "{{ lookup('file', '../../meta/main.yml') | from_yaml }}"
