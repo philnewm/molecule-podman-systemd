@@ -7,6 +7,9 @@
     - name: Gather package facts
       ansible.builtin.package_facts:
 
+    - name: Detect container environment
+      community.docker.current_container_facts:
+
     - name: Parse role metadata
       ansible.builtin.set_fact:
         role_meta: "{{ lookup('file', '../../meta/main.yml') | from_yaml }}"
